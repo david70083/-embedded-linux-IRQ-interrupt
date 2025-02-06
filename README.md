@@ -4,11 +4,11 @@
 
   ![interrupt vector](https://drive.google.com/uc?export=view&id=1xqsGTPMwVZ42_u8z_b4_c_UlxNz5UXeG)
   
-  - 將中斷向量寫入R15(PC)，PC表示要執行的地址，每個地址相差4 bits，
+    將中斷向量寫入R15(PC)，PC表示要執行的地址，每個地址相差4 bits，
   
-  - ldr pc, =Reset handler 地址為0x0
+    ldr pc, =Reset handler 地址為0x0
   
-  - ldr pc, = Undefine handler 地址為0x4
+    ldr pc, = Undefine handler 地址為0x4
   
     .
   
@@ -19,52 +19,52 @@
 
 2\. 關閉I cache(指令快取)、D cache(資料快取) 和 MMU(記憶體管理單元)
 
-  先關閉IRQ再進行設定避免可能的中斷干擾，cpsid i
+      先關閉IRQ再進行設定避免可能的中斷干擾，cpsid i
   
-  避免中斷時儲存到錯誤的資料。快取是由CP15控制，CP15是arm架構中協處理器，也就是系統控制寄存器(System Control Registers)，因此要關閉需要設定CP15。協處理器需要只用特殊指令進行讀取與寫入:
+      避免中斷時儲存到錯誤的資料。快取是由CP15控制，CP15是arm架構中協處理器，也就是系統控制寄存器(System Control Registers)，因此要關閉需要設定CP15。協處理器需要只用特殊指令進行讀取與寫入:
   
-  MRC: 將 CP15 協處理器中的暫存器資料讀取到 ARM 暫存器。
+      MRC: 將 CP15 協處理器中的暫存器資料讀取到 ARM 暫存器。
   
-  MCR: 將 ARM 暫存器的資料寫入到 CP15 協處理器暫存器。
+      MCR: 將 ARM 暫存器的資料寫入到 CP15 協處理器暫存器。
   
-  MCR p15, &lt;opc1&gt;, &lt;Rt&gt;, &lt;CRn&gt;, &lt;CRm&gt;, &lt;opc2&gt;，opc1與opc2為操作碼，基本上都是0。CRn與CRm表示CP15寄存器的編號，Rt為我們要寫入或要讀出來的寄存器，例R0。
+      MCR p15, &lt;opc1&gt;, &lt;Rt&gt;, &lt;CRn&gt;, &lt;CRm&gt;, &lt;opc2&gt;，opc1與opc2為操作碼，基本上都是0。CRn與CRm表示CP15寄存器的編號，Rt為我們要寫入或要讀出來的寄存器，例R0。
   
 ![ ](https://drive.google.com/uc?export=view&id=186FKnxhBjLCX9iamh48AUTyAwaJrxMmb)
   
-  I cache、D cache與MMU由SCTLR控制，需要設定特定bit的值
+      I cache、D cache與MMU由SCTLR控制，需要設定特定bit的值
 
 
 3.設定中斷向量偏移
 
-  中斷向量偏移也是在CP15協處器中控制的，由VBAR控制，需要設定特定bit的值。設定過程需要被dsb, isb包起來，否則會有問題。
+      中斷向量偏移也是在CP15協處器中控制的，由VBAR控制，需要設定特定bit的值。設定過程需要被dsb, isb包起來，否則會有問題。
   
-  dsb: 確保前面資料都傳完才會執行
+      dsb: 確保前面資料都傳完才會執行
   
-  isb: 確保前面指令都傳完才會執行
+      isb: 確保前面指令都傳完才會執行
 
 ![ ](https://drive.google.com/uc?export=view&id=1uPZTMMLl3ENBSyw39ZgNHQdg3twEyrSJ)
 
 
 4.設定SPSR指針
 
-  SPSR寄存器的內容包括了程式計數器(PC)和程式狀態暫存器(CPSR)，代表這個模式下執行的地址從SPSR地址開始，因為會用到IRQ，所以IRQ也要設定。
+      SPSR寄存器的內容包括了程式計數器(PC)和程式狀態暫存器(CPSR)，代表這個模式下執行的地址從SPSR地址開始，因為會用到IRQ，所以IRQ也要設定。
   
-  設定完後即可開啟IRQ中斷，cpsie i
+      設定完後即可開啟IRQ中斷，cpsie i
 
 
 5.設定IRQ中斷
 
-  1.儲存目前狀態的返回地址，中斷結束後要回到這個地址
+      1.儲存目前狀態的返回地址，中斷結束後要回到這個地址
   
-  2.儲存目前寄存器值R0-R3, R12
+      2.儲存目前寄存器值R0-R3, R12
   
-  3.讀取並儲存目前的SPSR
-  
-  觸發中斷前需要知道觸發的中斷ID。cortex A-7提供了1020個中斷ID，其中16個給SGI(Software-generated Interrupt)，16個給PPI(Private Peripheral Interrupt)，剩下的IC廠自行使用，imx6ULL定義了128個中斷ID。
+      3.讀取並儲存目前的SPSR
+      
+      觸發中斷前需要知道觸發的中斷ID。cortex A-7提供了1020個中斷ID，其中16個給SGI(Software-generated Interrupt)，16個給PPI(Private Peripheral Interrupt)，剩下的IC廠自行使用，imx6ULL定義了128個中斷ID。
 
   ![ ](https://drive.google.com/uc?export=view&id=1mtM2W2yFjF3s2J2fCsFvGjPRuR4Tw_V0)
 
-  CP15協處理器中的CBAR寄存器儲存GIC控制器的寄存器地址，GIC(Generic Interrupt Controller)負責控制中斷開關與中斷優先級。GIC地址offset 0x2000為CPU接口的地址，而CPU接口的地址offset 0x000C為GICC-IAR的地址，最後GICC-IAR則保存中斷ID
+      CP15協處理器中的CBAR寄存器儲存GIC控制器的寄存器地址，GIC(Generic Interrupt Controller)負責控制中斷開關與中斷優先級。GIC地址offset 0x2000為CPU接口的地址，而CPU接口的地址offset 0x000C為GICC-IAR的地址，最後GICC-IAR則保存中斷ID
 
   ![ ](https://drive.google.com/uc?export=view&id=1V4AltOFmXN6452kiapREN4TAGfdvYZVZ)
   
