@@ -64,11 +64,15 @@
 
   ![ ](https://drive.google.com/uc?export=view&id=1mtM2W2yFjF3s2J2fCsFvGjPRuR4Tw_V0)
 
+  CP15協處理器中的CBAR寄存器儲存GIC控制器的寄存器地址，GIC(Generic Interrupt Controller)負責控制中斷開關與中斷優先級。GIC地址offset 0x2000為CPU接口的地址，而CPU接口的地址offset 0x000C為GICC-IAR的地址，最後GICC-IAR則保存中斷ID
+
   ![ ](https://drive.google.com/uc?export=view&id=1V4AltOFmXN6452kiapREN4TAGfdvYZVZ)
   
   ![ ](https://drive.google.com/uc?export=view&id=1E1Ehkp_h1J2G5JqBet03xOiyHk0N0Kna)
   
   ![ ](https://drive.google.com/uc?export=view&id=1hzS1LNPaj1oK7me7DlR6y-OvO89mBxcX)
+
+  ![ ](https://drive.google.com/uc?export=view&id=1_BJ9WRXdvTa039wp4EqW2VLVqpoIqkhW)
 
 
 6.使用ldr將中斷函式地址存到R2中
