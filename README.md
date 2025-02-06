@@ -4,11 +4,11 @@
 
   ![interrupt vector](https://drive.google.com/uc?export=view&id=1xqsGTPMwVZ42_u8z_b4_c_UlxNz5UXeG)
   
-  -將中斷向量寫入R15(PC)，PC表示要執行的地址，每個地址相差4 bits，
+  - 將中斷向量寫入R15(PC)，PC表示要執行的地址，每個地址相差4 bits，
   
-  ldr pc, =Reset handler 地址為0x0
+  - ldr pc, =Reset handler 地址為0x0
   
-  ldr pc, = Undefine handler 地址為0x4
+  - ldr pc, = Undefine handler 地址為0x4
   
   .
   
