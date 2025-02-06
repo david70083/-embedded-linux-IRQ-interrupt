@@ -1,4 +1,4 @@
-***設定IRQ中斷***
+# 設定IRQ中斷
 
 1\. 彙編中定義中斷向量表
 
@@ -17,7 +17,7 @@
   當復位中斷觸發時，cortex A會自己去執行0x0地址的程式
 
 
-2.關閉I cache(指令快取)、D cache(資料快取) 和 MMU(記憶體管理單元)
+2\. 關閉I cache(指令快取)、D cache(資料快取) 和 MMU(記憶體管理單元)
 
   先關閉IRQ再進行設定避免可能的中斷干擾，cpsid i
   
@@ -93,7 +93,7 @@ typedef void (\*system_irq_handler_t) (unsigned int giccIar, void \*param);
 
 ex:
 
-# include &lt;stdio.h&gt;
+include &lt;stdio.h&gt;
 
 typedef void (\*system_irq_handler_t)(unsigned int giccIar, void \*param);
 
