@@ -10,11 +10,11 @@
   
   - ldr pc, = Undefine handler 地址為0x4
   
-  .
+    .
   
-  .
+    .
   
-  當復位中斷觸發時，cortex A會自己去執行0x0地址的程式
+    當復位中斷觸發時，cortex A會自己去執行0x0地址的程式
 
 
 2\. 關閉I cache(指令快取)、D cache(資料快取) 和 MMU(記憶體管理單元)
