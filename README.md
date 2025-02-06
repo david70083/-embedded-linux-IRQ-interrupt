@@ -87,33 +87,33 @@
 
 7.定義中斷處裡函式
 
-定一一個函式指針的類別
+    定一一個函式指針的類別
 
-typedef void (\*system_irq_handler_t) (unsigned int giccIar, void \*param);
+    typedef void (\*system_irq_handler_t) (unsigned int giccIar, void \*param);
 
-ex:
+- ex:
 
-include &lt;stdio.h&gt;
+    include &lt;stdio.h&gt;
 
-typedef void (\*system_irq_handler_t)(unsigned int giccIar, void \*param);
+    typedef void (\*system_irq_handler_t)(unsigned int giccIar, void \*param);
 
-void my_irq_handler(unsigned int giccIar, void \*param) {
+    void my_irq_handler(unsigned int giccIar, void \*param) {
 
-printf("Interrupt handler called with giccIar=%u\\n", giccIar);
+    printf("Interrupt handler called with giccIar=%u\\n", giccIar);
 
-}
+    }
 
-//函式my_irq_handler的輸入要與函式指針類別system_irq_handler_t 相同
+    //函式my_irq_handler的輸入要與函式指針類別system_irq_handler_t 相同
 
-int main() {
+    int main() {
 
-system_irq_handler_t a = &my_irq_handler; //將a設為函式my_irq_handler的地址
+    system_irq_handler_t a = &my_irq_handler; //將a設為函式my_irq_handler的地址
 
-a(123, NULL); //執行a則執行my_irq_handler
+    a(123, NULL); //執行a則執行my_irq_handler
 
-return 0;
+    return 0;
 
-}
+    }
 
 8.建立中斷處理函式表
 
