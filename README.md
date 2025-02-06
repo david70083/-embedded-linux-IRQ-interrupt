@@ -206,7 +206,7 @@ ex:
     }
 
 9.設定GPIO中斷
-
+ - -
     設定GPIO中斷類型
 
     中斷類型是由GPIO_ICR1和ICR2控制，ICR每個GPIO由兩個bit決定中斷類型
@@ -223,51 +223,51 @@ ex:
 
     建立指針判斷是低16bit還是高16bit對ICR進行設定，需要注意GPIO_EDGE_SEL的優先權大於ICR，因此要把GPIOx_EDGE_SEL先設0，有需要再設成1
 
-    base->EDGE_SEL &= ~(1 << pin);
-
-    volatile uint32_t \*icr;
-
-    uint32_t icrShift;
-
-    icrShift = pin;
-
-    base->EDGE_SEL &= ~(1U << pin);
-
-    if(pin < 16) /\* 低16位 \*/
-
-    {
-
-    icr = &(base->ICR1);
-
-    }
-
-    else /\* 高16位 \*/
-
-    {
-
-    icr = &(base->ICR2);
-
-    icrShift -= 16;
-
-    }
-
-    \*icr &= ~(3 << (2 \* icrShift)); //設定成低電平觸發
-
-    GPIO使能，IMR寄存器
-
-    void gpio_enableint(GPIO_Type\* base, unsigned int pin)
-
-    {
-
-    base->IMR |= (1 << pin);
-
-    }
-
-    GPIO中斷結束寫入
-
-    與GICC_EOIR一樣，中斷結束後需要清除中斷旗標，清除中斷旗標是對ISR寄存器寫入1
-
-    base->ISR |= (1 << pin);
+        base->EDGE_SEL &= ~(1 << pin);
+    
+        volatile uint32_t \*icr;
+    
+        uint32_t icrShift;
+    
+        icrShift = pin;
+    
+        base->EDGE_SEL &= ~(1U << pin);
+    
+        if(pin < 16) /\* 低16位 \*/
+    
+        {
+    
+        icr = &(base->ICR1);
+    
+        }
+    
+        else /\* 高16位 \*/
+    
+        {
+    
+        icr = &(base->ICR2);
+    
+        icrShift -= 16;
+    
+        }
+    
+        \*icr &= ~(3 << (2 \* icrShift)); //設定成低電平觸發
+    
+        GPIO使能，IMR寄存器
+    
+        void gpio_enableint(GPIO_Type\* base, unsigned int pin)
+    
+        {
+    
+        base->IMR |= (1 << pin);
+    
+        }
+    
+        GPIO中斷結束寫入
+    
+        與GICC_EOIR一樣，中斷結束後需要清除中斷旗標，清除中斷旗標是對ISR寄存器寫入1
+    
+        base->ISR |= (1 << pin);
 
 10.完成最終中斷函式，並將該函式使用上面的設定中斷函式設定到中斷處理函式的陣列中
 
