@@ -29,6 +29,7 @@ MCR: 將 ARM 暫存器的資料寫入到 CP15 協處理器暫存器。
 
 MCR p15, &lt;opc1&gt;, &lt;Rt&gt;, &lt;CRn&gt;, &lt;CRm&gt;, &lt;opc2&gt;，opc1與opc2為操作碼，基本上都是0。CRn與CRm表示CP15寄存器的編號，Rt為我們要寫入或要讀出來的寄存器，例R0。
 
+![ ](https://drive.google.com/uc?export=view&id=186FKnxhBjLCX9iamh48AUTyAwaJrxMmb)
 
 I cache、D cache與MMU由SCTLR控制，需要設定特定bit的值
 
