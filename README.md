@@ -2,7 +2,7 @@
 
 1\. 彙編中定義中斷向量表
 
-![interrupt vector](https://drive.google.com/file/d/1xqsGTPMwVZ42_u8z_b4_c_UlxNz5UXeG/view?usp=drive_link)
+![interrupt vector](https://drive.google.com/uc?export=view&id=1xqsGTPMwVZ42_u8z_b4_c_UlxNz5UXeG)
 
 將中斷向量寫入R15(PC)，PC表示要執行的地址，每個地址相差4 bits，
 
